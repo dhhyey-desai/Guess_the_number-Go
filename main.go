@@ -1,45 +1,27 @@
-// converting python games into golang
 package main
-import(
+
+import (
+	"bufio"
 	"fmt"
-	"math/rand"
-	"time"
+	"os"
+	"strconv"
+	"strings"
 )
 
-//this generates random number between given range
-func xrand(min, max int) int {
-	rand.Seed(time.Now().Unix())
-	return rand.Intn(max - min) + min
-}
-
 func main() {
-	var myname string
-	myrand := xrand(1, 10)
-	guessTaken := 0
-	var guess int
+	fmt.Println("Guess a number between 1 and 100")
+	fmt.Println("Please input your guess")
 
-	fmt.Println("Hello! What is your name?")
-	fmt.Scanf("%s", &myname)
-	fmt.Printf("Well, %s, I am thinking of a number between 1 and 10.\n", myname)
+	reader := bufio.NewReader(os.Stdin)
+	input, _ := reader.ReadString('\n')
+	input = strings.TrimSuffix(input, "\n")
 
-	//this is the while loop
-	for guessTaken < 6 {
-		fmt.Println("Take a guess...")
-		fmt.Scanf("%d", &guess)
-		guessTaken++
-		if guess < myrand {
-			fmt.Println("Your guess is too low.")
-		}
-		if guess > myrand {
-			fmt.Println("Your guess is too high.")
-		}
-		if guess == myrand {
-			break
-		}
+	guess, err := strconv.Atoi(input)
+
+	if err != nil {
+		fmt.Println("Invalid input. Please enter an integer value")
+		return
 	}
-	if guess == myrand {
-		fmt.Printf("Good job %s! You guessed my number in %d tries\n", myname, guessTaken)
-	} else {
-		fmt.Printf("Nope. The number I had in mind was %d\n", myrand)
-	}
+
+	fmt.Println("Your guess is", guess)
 }
